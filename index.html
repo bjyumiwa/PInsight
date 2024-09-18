@@ -1,0 +1,145 @@
+<html><head><base href="https://websim.jp/currency-converter/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>PInsight - かわいいポンド to 円 コンバーター</title>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23FFD700'/%3E%3Ctext x='50' y='50' font-family='Arial, sans-serif' font-size='60' font-weight='bold' text-anchor='middle' dominant-baseline='central' fill='%23FF9900'%3E£¥%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23FFD700'/%3E%3Ctext x='50' y='50' font-family='Arial, sans-serif' font-size='60' font-weight='bold' text-anchor='middle' dominant-baseline='central' fill='%23FF9900'%3E£¥%3C/text%3E%3C/svg%3E">
+<style>
+  body, html {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-color: #fff5e6;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .converter {
+    background-color: #ffffe0;
+    padding: 2rem;
+    border-radius: 30px;
+    box-shadow: 0 8px 16px rgba(255, 165, 0, 0.2);
+    text-align: center;
+    width: 100%;
+    max-width: 350px;
+  }
+  h1 {
+    color: #ff9900;
+    margin-bottom: 1.5rem;
+    font-size: 2.2rem;
+    text-shadow: 2px 2px 4px rgba(255, 165, 0, 0.3);
+  }
+  input {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    border: 3px solid #ffd700;
+    border-radius: 20px;
+    background-color: #fffacd;
+    transition: all 0.3s ease;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  input:focus {
+    outline: none;
+    border-color: #ffa500;
+    box-shadow: 0 0 10px rgba(255, 165, 0, 0.5);
+  }
+  #result {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ff8c00;
+    transition: all 0.3s ease;
+    padding: 10px;
+    background-color: #fffacd;
+    border-radius: 15px;
+    display: inline-block;
+  }
+  .logo {
+    font-size: 3.5rem;
+    color: #ffd700;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(255, 165, 0, 0.3);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="converter">
+    <div class="logo">🌻</div>
+    <h1>PInsight</h1>
+    <input type="number" id="pounds" placeholder="ポンドを入力してね♪" step="0.01">
+    <p id="result">0 円</p>
+  </div>
+</div>
+
+<script>
+  const poundsInput = document.getElementById('pounds');
+  const resultDisplay = document.getElementById('result');
+  const exchangeRate = 190;
+
+  poundsInput.addEventListener('input', function() {
+    const pounds = parseFloat(this.value);
+    if (!isNaN(pounds)) {
+      const yen = (pounds * exchangeRate).toFixed(0);
+      resultDisplay.textContent = `${yen} 円`;
+      resultDisplay.style.color = '#ff8c00';
+      resultDisplay.style.transform = 'scale(1.1)';
+      setTimeout(() => {
+        resultDisplay.style.transform = 'scale(1)';
+      }, 200);
+    } else {
+      resultDisplay.textContent = '0 円';
+      resultDisplay.style.color = '#ffd700';
+    }
+  });
+
+  poundsInput.addEventListener('focus', function() {
+    this.style.transform = 'scale(1.05)';
+  });
+
+  poundsInput.addEventListener('blur', function() {
+    this.style.transform = 'scale(1)';
+  });
+
+  // かわいいアニメーション効果
+  poundsInput.addEventListener('keyup', function(event) {
+    if (event.key >= '0' && event.key <= '9') {
+      this.style.backgroundColor = '#fff700';
+      setTimeout(() => {
+        this.style.backgroundColor = '#fffacd';
+      }, 300);
+    }
+  });
+
+  // スクロールを無効化
+  document.body.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+  }, { passive: false });
+
+  // ダブルタップによるズームを防止
+  let lastTouchEnd = 0;
+  document.addEventListener('touchend', function(event) {
+    const now = (new Date()).getTime();
+    if (now - lastTouchEnd <= 300) {
+      event.preventDefault();
+    }
+    lastTouchEnd = now;
+  }, false);
+</script>
+</body>
+</html>
